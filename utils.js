@@ -10,7 +10,7 @@ export async function DiscordRequest(endpoint, options) {
     headers: {
       Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
       'Content-Type': 'application/json; charset=UTF-8',
-      'User-Agent': 'DiscordBot (https://github.com/discord/discord-example-app, 1.0.0)',
+      'User-Agent': 'DiscordBot (https://github.com/simasgrilo/JCBot.git, 1.0.0)',
     },
     ...options
   });
@@ -42,6 +42,19 @@ export function getRandomEmoji() {
   return emojiList[Math.floor(Math.random() * emojiList.length)];
 }
 
+
+export function getIsBicha(name) {
+  let jcMember = name.options[0].value;
+  if (jcMember.toLowerCase() === "altamires" || jcMember.toLowerCase().substring(0,4) == 'alta') {
+    return `${jcMember} is bicha`;
+  }
+  return (getRandomInt(11) % 2 === 0) ? `${jcMember} is bicha` : `${name} is not bicha`;
+}
+
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function getRandomInt(maxVal) {
+  return Math.floor(Math.random() * maxVal);
 }

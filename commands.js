@@ -44,6 +44,25 @@ const CHALLENGE_COMMAND = {
   contexts: [0, 2],
 };
 
-const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND];
+
+const moradores = ["Altamires", "Ricardo", "Paulo Roberto"]
+
+const IS_HE = {
+  name : "bicha",
+  description: "Identifica se o membro da JC é viado ou não é",
+  type: 1,
+  options: [
+    {
+      type: 3, //string
+      name: "morador",
+      description: "Morador da JC",
+      required: true
+    }
+  ],
+  integration_types: [0,1]
+
+}
+
+const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND, IS_HE];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);

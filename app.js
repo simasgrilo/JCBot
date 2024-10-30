@@ -5,7 +5,7 @@ import {
   InteractionResponseType,
   verifyKeyMiddleware,
 } from 'discord-interactions';
-import { getRandomEmoji } from './utils.js';
+import { getRandomEmoji, getIsBicha } from './utils.js';
 
 // Create an express app
 const app = express();
@@ -49,6 +49,17 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           content: `hello world ${getRandomEmoji()}`,
         },
       });
+    }
+
+    if (name === 'bicha') {
+      let ans = `bicha ${getIsBicha(data)}`;
+      console.log(ans);
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: ans
+        }
+      })
     }
 
     console.error(`unknown command: ${name}`);
