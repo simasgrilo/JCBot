@@ -12,6 +12,8 @@ const app = express();
 // Get port, or default to 3000
 const PORT = process.env.PORT || 3000;
 
+var jcMember = {};
+
 /**
  * Interactions endpoint URL where Discord will send HTTP requests
  * Parse request body and verifies incoming requests using discord-interactions package
@@ -52,14 +54,14 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
     }
 
     if (name === 'bicha') {
-      let ans = `bicha ${getIsBicha(data)}`;
+      let ans = getIsBicha(data, jcMember);
       console.log(ans);
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
           content: ans
         }
-      })
+      });
     }
 
     console.error(`unknown command: ${name}`);

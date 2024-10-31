@@ -45,8 +45,6 @@ const CHALLENGE_COMMAND = {
 };
 
 
-const moradores = ["Altamires", "Ricardo", "Paulo Roberto"]
-
 const IS_HE = {
   name : "bicha",
   description: "Identifica se o membro da JC é viado ou não é",
@@ -54,7 +52,7 @@ const IS_HE = {
   options: [
     {
       type: 3, //string
-      name: "morador",
+      name: "membro",
       description: "Morador da JC",
       required: true
     }

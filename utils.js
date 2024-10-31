@@ -1,5 +1,10 @@
 import 'dotenv/config';
 
+const MORADOR = ["altamires", "ricardo", "paulo roberto", "paulin", "pr", "luanzao", "diego","vinicius","erick","sacola legal", "kitada"];
+const bichaLabel = "Vezes que é bicha";
+const notBichaLabel = "Vezes que não é bicha";
+const botSep = `+---------+--------------------+\n`;
+
 export async function DiscordRequest(endpoint, options) {
   // append endpoint to root API URL
   const url = 'https://discord.com/api/v10/' + endpoint;
@@ -43,12 +48,33 @@ export function getRandomEmoji() {
 }
 
 
-export function getIsBicha(name) {
-  let jcMember = name.options[0].value;
-  if (jcMember.toLowerCase() === "altamires" || jcMember.toLowerCase().substring(0,4) == 'alta') {
-    return `${jcMember} is bicha`;
+export function getIsBicha(name, bicha) {
+  let currJcMember = name.options[0].value;
+  let memberEval = true;
+  if (!(currJcMember.toLowerCase() === "altamires" || currJcMember.toLowerCase().substring(0,4) == 'alta')) {
+    //memberEval = `${jcMember} is bicha`;
+    memberEval = (getRandomInt(11) % 2 === 0);
   }
-  return (getRandomInt(11) % 2 === 0) ? `${jcMember} is bicha` : `${name} is not bicha`;
+  let header =  `+---------+--------------------+\n| Morador | ${bichaLabel} | ${notBichaLabel} |\n ${botSep}`;
+  let body = "";
+  if (!(currJcMember in bicha)) {
+    bicha[currJcMember] = { 
+                        "isBicha": 0, 
+                        "isNotBicha": 0
+                      };
+  }
+  if (memberEval) {
+    bicha[currJcMember].isBicha += 1;
+  }
+  else {
+    bicha[currJcMember].isNotBicha += 1;
+  }
+  for (let member in bicha) {
+    let row = `| ${member} | ${bicha[member].isBicha} | ${bicha[member].isNotBicha} |\n`;
+    body += row;
+  }
+  return header + body + botSep;
+  
 }
 
 export function capitalize(str) {
