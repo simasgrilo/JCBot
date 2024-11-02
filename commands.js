@@ -51,7 +51,7 @@ const IS_HE = {
   type: 1,
   options: [
     {
-      type: 3, //string
+      type: 3,
       name: "membro",
       description: "Morador da JC",
       required: true
@@ -59,8 +59,22 @@ const IS_HE = {
   ],
   integration_types: [0,1]
 
+};
+
+const CHATBOT_COMMAND = {
+  name: "chatbot",
+  description: "Converse com a Gemini, a IA da Google (versão pobre) - limite de 2000 caracteres",
+  type: 1,
+  options: [
+    {
+      type: 3,
+      name: "pergunta",
+      description: "faça uma pergunta à IA!",
+      required: true  
+    }
+  ]
 }
 
-const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND, IS_HE];
+const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND, IS_HE, CHATBOT_COMMAND];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);

@@ -1,16 +1,18 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import express from 'express';
 import {
   InteractionType,
   InteractionResponseType,
   verifyKeyMiddleware,
 } from 'discord-interactions';
-import { getRandomEmoji, getIsBicha } from './utils.js';
+import { getRandomEmoji, getIsBicha, chatWithBot } from './utils.js';
+import * as path from "path";
 
 // Create an express app
 const app = express();
 // Get port, or default to 3000
 const PORT = process.env.PORT || 3000;
+dotenv.config({path : path.resolve()+"\\DiscordBot\\.env"});
 
 var jcMember = {};
 
@@ -60,6 +62,16 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
           content: ans
+        }
+      });
+    }
+
+    if (name === 'chatbot') {
+      let chatbotAns = await chatWithBot(data);
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: chatbotAns
         }
       });
     }

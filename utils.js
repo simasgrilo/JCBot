@@ -1,9 +1,12 @@
 import 'dotenv/config';
+import { run } from './bot.js';
 
 const MORADOR = ["altamires", "ricardo", "paulo roberto", "paulin", "pr", "luanzao", "diego","vinicius","erick","sacola legal", "kitada"];
 const bichaLabel = "Vezes que é bicha";
 const notBichaLabel = "Vezes que não é bicha";
 const botSep = `+---------+--------------------+\n`;
+const dashBichaSep = "-".repeat(bichaLabel.length);
+const dashNotBichaSep = "-".repeat(notBichaLabel.length)
 
 export async function DiscordRequest(endpoint, options) {
   // append endpoint to root API URL
@@ -49,13 +52,14 @@ export function getRandomEmoji() {
 
 
 export function getIsBicha(name, bicha) {
+  //options contains the options declared in the command definition and supplied by the user in the discord channel
   let currJcMember = name.options[0].value;
   let memberEval = true;
   if (!(currJcMember.toLowerCase() === "altamires" || currJcMember.toLowerCase().substring(0,4) == 'alta')) {
     //memberEval = `${jcMember} is bicha`;
     memberEval = (getRandomInt(11) % 2 === 0);
   }
-  let header =  `+---------+--------------------+\n| Morador | ${bichaLabel} | ${notBichaLabel} |\n ${botSep}`;
+  let header =  `+---------+${dashBichaSep}+${dashNotBichaSep}+\n|Morador|${bichaLabel}|${notBichaLabel}|\n ${botSep}`;
   let body = "";
   if (!(currJcMember in bicha)) {
     bicha[currJcMember] = { 
@@ -70,7 +74,7 @@ export function getIsBicha(name, bicha) {
     bicha[currJcMember].isNotBicha += 1;
   }
   for (let member in bicha) {
-    let row = `| ${member} | ${bicha[member].isBicha} | ${bicha[member].isNotBicha} |\n`;
+    let row = `| ${member} | ${bicha[member].isBicha} ${" ".repeat(bichaLabel.length)}| ${bicha[member].isNotBicha} ${" ".repeat(notBichaLabel.length)} |\n`;
     body += row;
   }
   return header + body + botSep;
@@ -83,4 +87,11 @@ export function capitalize(str) {
 
 function getRandomInt(maxVal) {
   return Math.floor(Math.random() * maxVal);
+}
+
+export async function chatWithBot(data){
+  let query = data.options[0].value;
+  /*let answer = await run(query);
+  console.log(answer);*/
+  return run(query);
 }
